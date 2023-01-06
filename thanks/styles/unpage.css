@@ -1,0 +1,225 @@
+@import"/mdui/css/mdui.min.css";
+@import"/styles/atom-one-dark.min.css";
+
+@font-face {
+    font-family: 'goople';
+    src: url("../fonts/goople.ttf");
+}
+
+@font-face {
+    font-family: 'sourceCodePro';
+    src: url("../fonts/source-code-pro/SourceCodePro-Regular.ttf");
+}
+
+body {
+    font-family: "goople";
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    line-height: 20px;
+    color: rgb(78, 78, 78);
+    overflow-x: hidden;
+}
+
+code {
+    font-family: 'sourceCodePro';
+}
+
+a:visited {
+    text-decoration: none;
+    color: rgb(0, 132, 255);
+}
+a:active {
+    text-decoration: none;
+}
+
+a:link {
+    color: rgb(0, 132, 255);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.headcard{
+    width: 100%;
+    text-align: center;
+    padding: 50px;
+    color: white;
+    font-size: larger;
+}
+
+.card {
+    border-radius: 10px;
+    border: 1px solid gray;
+    margin: 4px;
+    text-align: left;
+    padding: 15px;
+    width: auto;
+}
+.mainCard{
+    border: 1px solid gray;
+    text-align: center;
+    border-radius: 15px;
+    margin: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.titlebar {
+    text-align: left;
+    padding: 10px;
+    padding-left: 20px;
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    top: 0px;
+}
+
+.picbtn{
+ opacity: 1;
+}
+.picbtn:hover{
+    opacity: 0.5;
+}
+
+.comment{
+    color: gray;
+    font-style: italic;
+}
+
+.adjustablebtn{
+    border-radius: 10px;
+    text-align: center;
+    margin: 4px;
+    background-color: rgb(0, 132, 255);
+    cursor: pointer;
+    color: white;
+    padding: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Chrome/Safari/Opera */
+    -khtml-user-select: none;
+    /* Konqueror */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently not supported by any browser */
+}
+
+.adjustablebtnpanel{
+    line-height: 80px;
+}
+
+.copyrightblock{
+    background-color: black;
+    color: white;
+    padding: 20px;
+    border-radius: 100px;
+    text-align: center;
+    width:auto; 
+    display:inline-block !important; 
+    display:inline;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Chrome/Safari/Opera */
+    -khtml-user-select: none;
+    /* Konqueror */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently not supported by any browser */
+}
+
+.title{
+    font-weight: lighter;
+    font-size: xx-large;
+    padding-bottom: 50px;
+    line-height: 35px;
+}
+
+.mtitle{
+    font-weight: lighter;
+    font-size: x-large;
+    padding-bottom: 50px;
+    line-height: 35px;
+}
+
+.stitle{
+    font-weight: bold;
+    font-style: normal;
+}
+
+.aditem{
+    border-radius: 10px;
+    margin: 4px;
+    text-align: left;
+    padding: 15px;
+    width: auto;
+}
+
+.cannotselect{
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Chrome/Safari/Opera */
+    -khtml-user-select: none;
+    /* Konqueror */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently not supported by any browser */
+}
+
+@media (prefers-color-scheme: dark) 
+{
+    body {
+        background-color: rgb(58, 58, 58);
+        color: white;
+    }
+    
+    .copyrightblock{
+        background-color: white;
+        color: black;
+    }
+    
+}
+
+.add-msg{
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    color: white;
+    font-size: medium;
+    background-color: rgb(255, 15, 135);
+}
+.add-msg-out{
+    border: 3px solid rgb(255, 15, 135);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    color: rgb(255, 15, 135);
+    font-size: medium;
+}
+.add-msg-title{
+    font-size: large;
+    font-weight: bolder;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 5px center;
+    padding: 10px;
+    padding-left: 30px;
+    background-image: url('../../imgs/warn_icon.svg');
+}
