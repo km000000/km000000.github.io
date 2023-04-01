@@ -1,6 +1,8 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
-    
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
     <style>
         #scrolldiv {
             overflow: hidden;
@@ -9,63 +11,27 @@
 </head>
 
 <body>
-    
-<div class="web_notice" style="
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.3);
-    z-index: 99999;
-">
-    <div style="
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 300px;
-    background: #FFF;
-    transform: translate(-50%, -50%);
-    border-radius: 5px;
-    padding: 10px 5px;
-">
-        <h3 style="
-    font-weight: bold;
+    <header style="
+            margin-top: 2%;
+    color: #98A3FF;
     text-align: center;
     font-size: 15px;
-">最新公告</h3>
-        <div style="
-    font-size: 16px;
-    margin-top: 5px;
-    line-height: 36px;
-    color: #999;
-">永久免费无偿提供版 km</div><a style="
-    display: block;
-    background: #98a3ff;
-    color: #FFF;
-    text-align: center;
-    font-weight: bold;
-    font-size: 12px;
-    line-height: 25px;
-    margin: 0 auto;
-    margin-top: 0px;
-    border-radius: 32px;
-    width: 90%;
-" onclick="javascript:document.querySelector('.web_notice').remove()">朕已知晓了<!-- a-->
-    </a></div><a style="
-    display: block;
-    background: #98a3ff;
-    color: #FFF;
-    text-align: center;
-    font-weight: bold;
-    font-size: 12px;
-    line-height: 25px;
-    margin: 0 auto;
-    margin-top: 0px;
-    border-radius: 32px;
-    width: 90%;
-" onclick="javascript:document.querySelector('.web_notice').remove()">
-</a></div><a style="
+    ">
+        <span>Kong°App</span><a href="https://sqso.netlify.app"><button style="
+            padding: .1em 1em;
+      background: #98A3FF;
+      color: white;
+      border: none;
+      font-size: 14px;
+      border-radius: 10px;" type="button">官网</button></a>
+    </header>
+
+
+    <a style="
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
     display: block;
     background: #98a3ff;
     color: #FFF;
@@ -79,53 +45,58 @@
     width: 90%;
 " onclick="javascript:document.querySelector('.web_notice').remove()">
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta http-equiv="Cache-Control" content="no-transform">
-    <meta http-equiv="Cache-Control" content="no-siteapp">
-    <meta name="referrer" content="never">
-    <meta name="renderer" content="webkit">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="随机xjj">
-    <meta name="keywords" content="xjj">
-    <title>xjj test kong</title>
-    <link rel="stylesheet" href="css/style.css">
+        <meta name="referrer" content="never">
+        <meta name="renderer" content="webkit">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="description" content="随机xjj">
+        <meta name="keywords" content="xjj">
+        <title>xjj test kong</title>
+        <link rel="stylesheet" href="css/style.css">
 
-    <section id="main">
-        <video id="player" src="http://douyin.bad996.com/dy.php" controls="" webkit-playsinline="" playsinline=""></video>
-    </section>
-    <section id="buttons">
-        <button id="switch">自动播放开</button>
-        <button id="next">有请下一位</button>
-    </section>
-    <script>
-        (function(window, document) {
-            if (top != self) {
-                window.top.location.replace(self.location.href);
-            }
-            var get = function(id) {
-                return document.getElementById(id);
-            }
-            var bind = function(element, event, callback) {
-                return element.addEventListener(event, callback);
-            }
-            var auto = true;
-            var player = get('player');
-            var randomm = function() {
-                player.src = 'https://pan.sxiongd.com/vip/video.php?_t=' + Math.random();
-                player.play();
-            }
-            bind(get('next'), 'click', randomm);
-            bind(player, 'error', function() {
-                randomm();
-            });
-            bind(get('switch'), 'click', function() {
-                auto = !auto;
-                this.innerText = '自动播放' + (auto ? '开' : '关');
-            });
-            bind(player, 'ended', function() {
-                if (auto) randomm();
-            });
-        })(window, document);
-    </script>
+        <section id="main">
+            <video id="player" src="http://api.caonm.net/api/mn" controls="" webkit-playsinline="" playsinline=""></video>
+        </section>
+        <section id="buttons">
+            <button id="switch">自动播放开</button>
+            <button id="next">有请下一位</button>
+        </section>
+        <script>
+            (function(window, document) {
+                if (top != self) {
+                    window.top.location.replace(self.location.href);
+                }
+                var get = function(id) {
+                    return document.getElementById(id);
+                }
+                var bind = function(element, event, callback) {
+                    return element.addEventListener(event, callback);
+                }
+                var auto = true;
+                var player = get('player');
+                var randomm = function() {
+                    player.src = 'http://api.caonm.net/api/mn?rnd=' + Math.random();
+                    player.play();
+                }
+                bind(get('next'), 'click', randomm);
+                bind(player, 'error', function() {
+                    randomm();
+                });
+                bind(get('switch'), 'click', function() {
+                    auto = !auto;
+                    this.innerText = '自动播放' + (auto ? '开' : '关');
+                });
+                bind(player, 'ended', function() {
+                    if (auto) randomm();
+                });
+            })(window, document);
+        </script>
+        <script>
+            window.webapp.erect(true);
+            window.webapp.renew(false);
+            window.webapp.circle(false);
+        </script>
+        <script src="./app/webapp.js"></script>
+    </a>
+</body>
 
-</a></body></html>
+</html>
