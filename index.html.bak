@@ -1,313 +1,818 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-CN">
 <head>
-    <!-- META -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="KONG">
-    <meta name="keywords" content="KONG">
-    <meta name="author" content="Tanvir Rahman Hridoy">
-    <!-- PAGE TITLE -->
-    <title>KONG°-碩</title>
-    <!-- BOOTSTRAP CSS -->
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <!-- ALL GOOGLE FONTS -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <!-- FONT AWESOME CSS -->
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/linear-fonts.css">
-    <!-- OWL CAROSEL CSS -->
-    <link rel="stylesheet" href="assets/owlcarousel/css/owl.carousel.css">
-    <link rel="stylesheet" href="assets/owlcarousel/css/owl.theme.css">
-    <!-- MAGNIFIC CSS -->
-    <link rel="stylesheet" href="assets/css/magnific-popup.css">
-    <!-- ANIMATE CSS -->
-    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KONG° | 个人空间</title>
+    <style>
+        /* 基础架构 */
+        :root {
+            --black: #0A0A0A;
+            --dark-gray: #1A1A1A;
+            --medium-gray: #333333;
+            --light-gray: #E6E6E6;
+            --white: #FFFFFF;
+            --accent: #8A2BE2;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--black);
+        }
+        
+        body {
+            color: var(--light-gray);
+            line-height: 1.8;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
+        }
+        
+        /* 关键帧动画定义 */
+        @keyframes textReveal {
+            0% { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0); 
+            }
+            50% { 
+                transform: translateY(-10px); 
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        /* 导航系统 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(230, 230, 230, 0.1);
+            z-index: 1000;
+            transition: all 0.4s ease;
+        }
+        
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--light-gray);
+            text-decoration: none;
+            font-size: 1.05rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--white);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        /* 内容区块 */
+        .section {
+            min-height: 100vh;
+            padding: 8rem 5% 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 3rem;
+            color: var(--white);
+            margin-bottom: 3rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: var(--white);
+            transition: width 0.4s ease;
+        }
+        
+        /* 首页区域 - 添加动画 */
+        #home {
+            background: linear-gradient(rgba(10, 10, 10, 0.9), rgba(26, 26, 26, 0.7)), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23333" stroke-width="1"/></svg>');
+            background-size: 30px 30px;
+            text-align: center;
+        }
+        
+        .hero-content h1 {
+            font-size: 4.5rem;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            animation: textReveal 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+            opacity: 0; /* 初始不可见 */
+        }
+        
+        .hero-content p {
+            font-size: 1.4rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            color: var(--light-gray);
+            animation: textReveal 1.2s 0.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+            opacity: 0; /* 初始不可见 */
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1.1rem 2.5rem;
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+            font-size: 1.05rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            letter-spacing: 1px;
+            will-change: transform; /* GPU加速 */
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px) scale(1.03);
+        }
+        
+        .btn-primary {
+            background: var(--white);
+            color: var(--black);
+            border-color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--white);
+        }
+        
+        /* 关于区域 - 添加动画 */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .about-image {
+            position: relative;
+        }
+        
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--light-gray);
+            z-index: -1;
+            transition: all 0.4s ease;
+        }
+        
+        .about-image:hover::before {
+            transform: translate(10px, 10px);
+        }
+        
+        .about-image-placeholder {
+            height: 400px;
+            background: var(--medium-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-gray);
+            font-size: 1.2rem;
+            transition: transform 0.4s ease;
+        }
+        
+        .about-image:hover .about-image-placeholder {
+            transform: scale(1.02);
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-text p {
+            margin-bottom: 1.8rem;
+            color: var(--light-gray);
+        }
+        
+        .signature {
+            font-family: 'Georgia', serif;
+            font-size: 2.2rem;
+            color: var(--white);
+            margin-top: 2rem;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: fadeIn 0.8s 0.6s forwards;
+        }
+        
+        /* 服务区域 - 添加动画 */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            padding: 2.5rem;
+            border: 1px solid rgba(230, 230, 230, 0.15);
+            transition: all 0.4s ease;
+            will-change: transform, box-shadow; /* GPU加速 */
+            opacity: 0; /* 初始不可见 */
+            transform: translateY(30px);
+        }
+        
+        .service-card.animate {
+            animation: fadeIn 0.8s forwards;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px) translateZ(10px);
+            border-color: var(--white);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .service-title {
+            font-size: 1.5rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+        
+        /* 推荐区域 - 添加动画 */
+        .testimonials-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .testimonial-card {
+            padding: 2.5rem;
+            border: 1px solid rgba(230, 230, 230, 0.15);
+            margin-bottom: 2rem;
+            position: relative;
+            opacity: 0; /* 初始不可见 */
+            transform: translateY(30px);
+        }
+        
+        .testimonial-card.animate {
+            animation: fadeIn 0.8s forwards;
+        }
+        
+        .testimonial-card:before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 5rem;
+            color: rgba(230, 230, 230, 0.1);
+            font-family: Georgia, serif;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--light-gray);
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-info {
+            margin-left: 1rem;
+        }
+        
+        .author-name {
+            font-weight: 600;
+            color: var(--white);
+        }
+        
+        .author-title {
+            font-size: 0.9rem;
+            color: var(--light-gray);
+        }
+        
+        /* 联系区域 - 添加动画 */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            opacity: 0; /* 初始不可见 */
+            transform: translateX(-20px);
+        }
+        
+        .contact-item.animate {
+            animation: fadeIn 0.6s forwards;
+        }
+        
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+        
+        .contact-details h3 {
+            font-size: 1.2rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-form .form-group {
+            margin-bottom: 1.5rem;
+            opacity: 0; /* 初始不可见 */
+            transform: translateX(20px);
+        }
+        
+        .contact-form .form-group.animate {
+            animation: fadeIn 0.6s forwards;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            border: 1px solid rgba(230, 230, 230, 0.2);
+            color: var(--white);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: var(--white);
+            transform: scale(1.02);
+        }
+        
+        textarea.form-input {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* 页脚 */
+        .footer {
+            padding: 4rem 5% 2rem;
+            background: var(--black);
+            border-top: 1px solid rgba(230, 230, 230, 0.1);
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-title {
+            font-size: 1.2rem;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--white);
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .footer-link {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: var(--white);
+            margin-left: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(230, 230, 230, 0.1);
+            color: var(--light-gray);
+        }
+        
+        /* 响应式优化 */
+        @media (max-width: 992px) {
+            .about-grid,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+            
+            .section {
+                padding: 6rem 5% 3rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 为减少运动的用户提供选项 */
+        @media (prefers-reduced-motion) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+        .personal-image {
+    width: 100%; /* 宽度填充容器 */
+    height: 400px; /* 与原始占位符高度一致 */
+    object-fit: cover; /* 防止变形（裁剪覆盖） */
+    border: 1px solid rgba(230, 230, 230, 0.1); /* 浅色边框 */
+    transition: transform 0.4s ease; /* 悬停动画 */
+}
+.about-image:hover .personal-image {
+    transform: scale(1.02); /* 悬停时轻微放大 */
+}
 
-    <!-- MAIN STYLE CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <!-- RESPONSIVE CSS -->
-    <link rel="stylesheet" href="assets/css/responsive.css">
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-          <script src="http://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-          <script src="http://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
+@media (max-width: 768px) {
+   .personal-image {
+       height: 300px; /* 移动端高度调整 */
+   }
+}
+
+    </style>
 </head>
-
 <body>
-
-    <!-- START PRELOADER AREA-->
-    <div class="preloader-area">
-        <div class="preloader">
-            <div class="double-bounce1"></div>
-            <div class="double-bounce2"></div>
+    <!-- 导航 -->
+    <nav class="navbar">
+        <a href="#" class="logo">碩</a>
+        <div class="nav-links">
+            <a href="#home" class="nav-link">首页</a>
+            <a href="#about" class="nav-link">关于</a>
+            <a href="#services" class="nav-link">服务</a>
+            <a href="#testimonials" class="nav-link">推荐</a>
+            <a href="#contact" class="nav-link">联系</a>
+            <a href="play.html" class="nav-link">云应用</a>
+            <a href="about/index.html" class="nav-link">个人空间</a>
         </div>
-    </div>
-    <!-- END PRELOADER AREA -->
-    <div class="swiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide index-header">
-                <!-- START HOMEPAGE DESIGN AREA -->
-                <header id="home" class="welcome-area">
-                    <div class="header-top-area">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <!-- START LOGO DESIGN AREA -->
-                                    <div class="logo">
-                                        <a href="index.html">碩</a>
-                                    </div>
-                                    <!-- END LOGO DESIGN AREA -->
-                                </div>
-                                <div class="col-sm-9">
-                                    <!-- START MENU DESIGN AREA -->
-                                    <div class="mainmenu">
-                                        <div class="navbar navbar-nobg">
-                                            <div class="navbar-header">
-                                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                                    <span class="sr-only">Toggle navigation</span>
-                                                    <span class="icon-bar"></span>
-                                                    <span class="icon-bar"></span>
-                                                    <span class="icon-bar"></span>
-                                                </button>
-                                            </div>
-                                            <div class="navbar-collapse collapse">
-                                                <ul class="nav navbar-nav navbar-right">
-                                                    <li class="active"><a class="smoth-scroll" href="#home">Home <div class="ripple-wrapper"></div></a>
-                                                    </li>
-                                                    <li><a class="smoth-scroll" href="#about">About</a>
-                                                    </li>
-                                                    <li><a class="smoth-scroll" href="#work">Work</a>
-                                                    </li>
-                                                    <li><a class="smoth-scroll" href="#testimonial">testimonial</a>
-                                                    </li>
-                                                    <li><a class="smoth-scroll" href="#contact">Contact</a>
-                                                   <li><a class="smoth-scroll" href="play.html">云游戏/软件</a>                                    
-                                                    </li>
-                                                    <li><a class="smoth-scroll" href="about/index.html">Me</a>
-                                                    </li>
-                                                    <li><a class="smoth-scroll" href="thanks/index.html">Thanks</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- END MENU DESIGN AREA -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="welcome-image-area" data-stellar-background-ratio="0.6">
-                        <div class="display-table">
-                            <div class="display-table-cell down_app">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="header-text text-center">
-                                                <h2 class="wow fadeInUp" data-wow-delay="0.9s">Shawn Quentin Sun</h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-                <!-- / END HOMEPAGE DESIGN AREA -->
-            </div>
-            <div class="swiper-slide">
-                <!-- START ABOUT DESIGN AREA -->
-                <section id="about" class="about-me-area section-padding">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <!-- START ABOUT TEXT AREA -->
-                                <div class="about-text">
-                                    <h2 class="wow fadeInUp" data-wow-delay="0.4s">KONG°</h2>
-                                    <h3 class="wow fadeInUp" data-wow-delay="0.6s">一个人</h3>
-                                    <p class="wow fadeInUp" data-wow-delay="0.8s">什么都没有...</p>
-                                    <div class="col-md-12">
-                                                                            <div class="xz"><a href="zan.png" class="down_app">点击此处V我50</a></div>
-                                    </div>
-                                </div>
-                                <!-- / END ABOUT TEXT AREA -->
-                            </div>
+    </nav>
 
-                            <div class="col-md-4">
-                                <!-- START ABOUT IMAGE AREA -->
-                                <div class="about-image wow fadeInUp" data-wow-delay="0.4s">
-                                    <img src="assets/images/me.jpg" alt="" class="img-responsive">
-                                    <h2>Michael Jordan</h2>
-                                </div>
-                                <!-- / END ABOUT IMAGE AREA -->
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <!-- / END ABOUT DESIGN AREA -->
-
-                <!-- START SERVICES DESIGN AREA -->
-                <section class="service-area">
-                    <div class="container">
-                        <div class="row">
-                            <!-- START SINGLE SERVICE DESIGN AREA -->
-                            <div class="col-md-3 col-sm-6">
-                                <div class="single-service wow fadeInUp" data-wow-delay="0.2s">
-                                    <span class="lnr lnr-camera"></span>
-                                    <h2>什么东西都没有</h2>
-                                    <p>真的没有</p>
-                                </div>
-                            </div>
-                            <!-- / END SINGLE SERVICE DESIGN AREA -->
-                        </div>
-                    </div>
-                </section>
-                <!-- / END SERVICES DESIGN AREA -->
-
-                <!-- START TESTIMONIAL DESIGN AREA -->
-                <section id="testimonial" class="testimonial-area section-padding">
-                    <div class="container">
-                        <div class="row">
-                            <div class="testimonial-list">
-                                <!-- START SINGLE TESTIMONIAL DESIGN AREA -->
-                                <div class="single-testimonial text-center">
-                                    <i class="fa fa-quote-left"></i>
-                                    <h2>碩° <span>(TA 说)</span></h2>
-                                    <p>没什么想说的，群众的眼睛是雪亮的</p>
-                                    <i class="fa fa-quote-right"></i>
-                                </div>
-                                <!-- / END SINGLE TESTIMONIAL DESIGN AREA -->
-                                <!-- START SINGLE TESTIMONIAL DESIGN AREA -->
-                                <div class="single-testimonial text-center">
-                                    <i class="fa fa-quote-left"></i>
-                                    <h2>路人甲 <span>(TA 说)</span></h2>
-                                    <p>那天自从在路上见到碩，我才知道原来我的眼界如此渺小，那深邃的眼眸，有力的脸部线条，强壮的肌肉...那一刻我的仰慕跨越了物种，跨越了性别，那一刻世上一切的赞美词都变得苍白了起来，那一刻世上所有的羡慕嫉妒都变得无力起来，我恨啊！我恨苍天为什么没有让我早点见识到如此惊世骇俗的男人</p>
-                                    <i class="fa fa-quote-right"></i>
-                                </div>
-                                <!-- / END SINGLE TESTIMONIAL DESIGN AREA -->
-                                <!-- START SINGLE TESTIMONIAL DESIGN AREA -->
-                                <div class="single-testimonial text-center">
-                                    <i class="fa fa-quote-left"></i>
-                                    <h2>路人乙 <span>(TA 说)</span></h2>
-                                    <p>我同意甲哥的说法</p>
-                                    <i class="fa fa-quote-right"></i>
-                                </div>
-                                <!-- / END SINGLE TESTIMONIAL DESIGN AREA -->
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <!-- / END TESTIMONIAL DESIGN AREA -->
-
-
-                <!-- START CONTACT DESIGN AREA -->
-                <section id="contact" class="contact-me-area section-padding">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="section-title">
-                                    <h2>get in touch</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="single-contact-details">
-                                    <span class="lnr lnr-map-marker"></span>
-                                    <h2>位置</h2>
-                                    <p>中国</p>
-                                </div>
-                                <div class="single-contact-details">
-                                    <span class="lnr lnr-phone-handset"></span>
-                                    <h2>Number</h2>
-                                    <p>23</p>
-                                </div>
-                                <div class="single-contact-details">
-                                    <span class="lnr lnr-envelope"></span>
-                                    <h2>邮箱</h2>
-                                    <p>sqs2007o@outlook.com</p>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </section>
-                <!-- / END CONTACT DESIGN AREA -->
-
-                <!-- START FOOTER DESIGN AREA -->
-                <footer class="footer-area">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-6 wow fadeInUp" data-wow-delay="1s">
-                                <p>&copy; 2025 KONG | All RightReserved.</p>
-                                <p><a href="https://spacex.com" target="_blank" class="miit" style="color:white">KONG.</a></p>
-
-                            </div>
-                            <div class="col-sm-6 wow fadeInUp" data-wow-delay="1s">
-                                <div class="footer-social-link">
-                                    <ul>
-                                        <li><a href=""><i class="fa fa-facebook fb"></i></a>
-                                        </li>
-                                        <li><a href=""><i class="fa fa-twitter tw"></i></a>
-                                        </li>
-                                        <li><a href=""><i class="fa fa-dribbble dri"></i></a>
-                                        </li>
-                                        <li><a href=""><i class="fa fa-instagram ins"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
-                <!-- / END FOOTER DESIGN AREA -->
+    <!-- 首页 -->
+    <section id="home" class="section">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Shawn Quentin Sun</h1>
+                <p>追求卓越的探索者 · 创造价值的实践者</p>
+                <div class="btn-container">
+                    <a href="#about" class="btn btn-primary">探索更多</a>
+                    <a href="#contact" class="btn">联系我</a>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- LATEST JQUERY -->
-    <script src="assets/js/jquery.min.js"></script>
-    <!-- BOOTSTRAP JS -->
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <!-- OWL CAROUSEL JS  -->
-    <script src="assets/owlcarousel/js/owl.carousel.min.js"></script>
-    <!-- MIXITUP JS -->
-    <script src="assets/js/jquery.mixitup.js"></script>
-    <!-- PARALLAX JS -->
-    <script src="assets/js/jquery.stellar.min.js"></script>
-    <!-- MAGNIFICANT JS -->
-    <script src="assets/js/jquery.magnific-popup.min.js"></script>
-    <!-- WOW JS -->
-    <script src="assets/js/wow.min.js"></script>
-    <!-- CONTACT FORM JS -->
+    </section>
 
-    <!-- SCRIPT JS -->
-    <script src="assets/js/scripts.js"></script>
+    <!-- 关于 -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">关于我</h2>
+            <div class="about-grid">
+                <div class="about-image">
+                    <div class="about-image-placeholder">
+                      <div class="about-image">
+    <!-- 替换为真实图片 -->
+    <img src="/storage/emulated/0/Venter/HopWeb/Projects/km000000.github.io/assets/images/me.jpg" alt="个人形象" class="personal-image">
+</div>
+
+                    </div>
+                </div>
+                <div class="about-text">
+                    <h3>追求卓越的探索者</h3>
+                    <p>在数字世界的构建中，我始终追求技术与美学的完美平衡。通过多年的实践，我逐渐形成了以用户为中心的设计哲学，强调功能性与视觉美学的融合。</p>
+                    <p>我的工作方式基于深度思考与持续创新，每个项目都是对未知领域的探索。我相信，真正的价值创造源于对细节的执着追求和对完美的永恒渴望。</p>
+                    <p>在这个信息过载的时代，我致力于创建清晰、高效且富有意义的数字体验，帮助人们更有效地连接信息、思想和彼此。</p>
+                    <div class="signature">碩</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务 -->
+    <section id="services" class="section">
+        <div class="container">
+            <h2 class="section-title">专业服务</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">✏️</div>
+                    <h3 class="service-title">界面设计</h3>
+                    <p>创造简约而强大的用户界面，专注于提升用户体验与品牌价值，通过精心设计的交互细节传递品牌精髓。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">💻</div>
+                    <h3 class="service-title">前端开发</h3>
+                    <p>使用现代技术栈构建高性能、响应式的网页应用，确保在各种设备上提供一致且流畅的用户体验。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📱</div>
+                    <h3 class="service-title">用户体验优化</h3>
+                    <p>通过用户研究与数据分析，优化产品流程与交互设计，打造直观易用的数字产品体验。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 推荐 -->
+    <section id="testimonials" class="section">
+        <div class="container">
+            <h2 class="section-title">推荐信</h2>
+            <div class="testimonials-container">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"碩的出现彻底改变了我对设计的理解。他不仅具备卓越的技术能力，更拥有将复杂需求转化为优雅解决方案的独特才能。与他合作的每个项目都是一次美学与技术完美融合的体验。"</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <div class="author-name">路人甲</div>
+                            <div class="author-title">创意总监，ABC Design Studio</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"碩的专业素养令人印象深刻。他对细节的关注达到了令人惊叹的程度，每一个像素、每一行代码都经过精心打磨。他的工作成果不仅满足需求，更常常超越预期，创造出令人惊喜的价值。"</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <div class="author-name">路人乙</div>
+                            <div class="author-title">产品经理，Tech Innovations Inc</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系 -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">联系我</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h3>位置</h3>
+                            <p>中国</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div class="contact-details">
+                            <h3>邮箱</h3>
+                            <p>sqs2007o@outlook.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <div class="contact-details">
+                            <h3>工作时间</h3>
+                            <p>周一至周五: 9:00 - 18:00</p>
+                            <p>周末: 预约制</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="姓名" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-input" placeholder="邮箱" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="主题" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-input" placeholder="留言内容" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">发送消息</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo">碩</div>
+                    <p style="margin-top: 1rem; max-width: 300px;">追求卓越的探索者 · 创造价值的实践者 · 简约美学的倡导者</p>
+                </div>
+                <div>
+                    <h3 class="footer-title">快速链接</h3>
+                    <div class="footer-links">
+                        <a href="#home" class="footer-link">首页</a>
+                        <a href="#about" class="footer-link">关于</a>
+                        <a href="#services" class="footer-link">服务</a>
+                        <a href="#contact" class="footer-link">联系</a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="footer-title">更多</h3>
+                    <div class="footer-links">
+                        <a href="play.html" class="footer-link">云应用</a>
+                        <a href="about/index.html" class="footer-link">个人空间</a>
+                        <a href="thanks/index.html" class="footer-link">特别致谢</a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 KONG | 保留所有权利</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        $(".down_app").on("click", function() {
-            $.ajax({
-                type: 'get',
-                url: '/api/system.txt',
-                data: {
-                    t: Date.now()
-                },
-                contentType: 'application/json;charset=UTF-8',
-                dataType: 'text',
-                success: function(data) {
-                    window.open(data)
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    console.log(1111)
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.padding = "1rem 5%";
+                navbar.style.backgroundColor = "rgba(10, 10, 10, 0.98)";
+            } else {
+                navbar.style.padding = "1.5rem 5%";
+                navbar.style.backgroundColor = "rgba(10, 10, 10, 0.95)";
+            }
+        });
+        
+        // 表单提交
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('感谢您的留言！我会尽快回复您。');
+            this.reset();
+        });
+        
+        // 滚动触发动画
+        function animateOnScroll() {
+            // 服务卡片动画
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.9) {
+                    card.classList.add('animate');
                 }
             });
-
-        })
+            
+            // 推荐卡片动画
+            const testimonialCards = document.querySelectorAll('.testimonial-card');
+            testimonialCards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.9) {
+                    card.classList.add('animate');
+                }
+            });
+            
+            // 联系信息动画
+            const contactItems = document.querySelectorAll('.contact-item');
+            contactItems.forEach((item, index) => {
+                const rect = item.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.9) {
+                    setTimeout(() => {
+                        item.classList.add('animate');
+                    }, index * 150); // 错开动画时间
+                }
+            });
+            
+            // 联系表单动画
+            const formGroups = document.querySelectorAll('.form-group');
+            formGroups.forEach((group, index) => {
+                const rect = group.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.9) {
+                    setTimeout(() => {
+                        group.classList.add('animate');
+                    }, index * 150); // 错开动画时间
+                }
+            });
+        }
+        
+        // 初始化滚动监听
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
     </script>
 </body>
-
 </html>
