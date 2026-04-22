@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>KONG | Cloud Games</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap');
+        body { background: #000; color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+        .aurora-bg { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at 20% 30%, #1a1a2e 0%, transparent 40%), radial-gradient(circle at 80% 70%, #1a2e1a 0%, transparent 40%); filter: blur(60px); opacity: 0.8; }
+        .game-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%); border: 0.5px solid rgba(255, 255, 255, 0.15); border-radius: 32px; transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); cursor: pointer; }
+        .game-card:hover { transform: translateY(-8px) scale(1.02); border-color: rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.08); }
+        .game-card:active { transform: scale(0.95); }
+        .stagger-in { animation: iosIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        @keyframes iosIn { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    </style>
+</head>
+<body class="flex justify-center">
+    <div class="aurora-bg"></div>
+    <div class="w-full max-w-md px-6 py-12 flex flex-col min-h-screen">
+        <header class="mb-10 stagger-in" style="animation-delay: 0.1s;">
+            <h1 class="text-4xl font-extrabold tracking-tight">云端中心</h1>
+            <p class="text-white/40 text-xs tracking-[0.2em] mt-2 uppercase">完全免费 / 无需安装 / 极速开启</p>
+        </header>
+
+        <div class="space-y-4">
+            <a href="https://poki.com" target="_blank" class="game-card p-6 flex items-center space-x-5 block stagger-in" style="animation-delay: 0.2s;">
+                <div class="w-14 h-14 bg-gradient-to-tr from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center text-3xl">🕹️</div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-lg">Poki 全球游戏</h3>
+                    <p class="text-white/40 text-[10px]">3000+ 热门游戏 · 点开即玩</p>
+                </div>
+            </a>
+
+            <a href="https://www.crazygames.com" target="_blank" class="game-card p-6 flex items-center space-x-5 block stagger-in" style="animation-delay: 0.3s;">
+                <div class="w-14 h-14 bg-gradient-to-tr from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center text-3xl">🚀</div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-lg">CrazyGames</h3>
+                    <p class="text-white/40 text-[10px]">竞技、解谜、3D 漂移 · 完全免费</p>
+                </div>
+            </a>
+
+            <a href="https://play.geforcenow.com" target="_blank" class="game-card p-6 flex items-center space-x-5 block stagger-in" style="animation-delay: 0.4s;">
+                <div class="w-14 h-14 bg-zinc-800 rounded-2xl flex items-center justify-center text-3xl">💎</div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-lg">GFN 云端 3A</h3>
+                    <p class="text-white/40 text-[10px]">部分免费游戏可用 · 1080P 体验</p>
+                </div>
+            </a>
+
+            <a href="https://yandex.com/games/" target="_blank" class="game-card p-6 flex items-center space-x-5 block stagger-in" style="animation-delay: 0.5s;">
+                <div class="w-14 h-14 bg-gradient-to-tr from-red-500 to-pink-500 rounded-2xl flex items-center justify-center text-3xl">🏮</div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-lg">Yandex 实验室</h3>
+                    <p class="text-white/40 text-[10px]">精品中文支持 · 纯净无广告</p>
+                </div>
+            </a>
+
+            <a href="https://minesweeper.online/zh/" target="_blank" class="game-card p-6 flex items-center space-x-5 block stagger-in" style="animation-delay: 0.6s;">
+                <div class="w-14 h-14 bg-zinc-700 rounded-2xl flex items-center justify-center text-3xl">💣</div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-lg">经典复刻中心</h3>
+                    <p class="text-white/40 text-[10px]">全球在线竞技 · 找回童年</p>
+                </div>
+            </a>
+        </div>
+
+        <footer class="mt-auto pt-10 stagger-in" style="animation-delay: 0.7s;">
+            <button onclick="window.location.href='index.html'" class="w-full py-5 rounded-[28px] bg-white text-black font-bold text-sm active:scale-95 transition-transform shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                返回控制台
+            </button>
+        </footer>
+    </div>
+</body>
+</html>
