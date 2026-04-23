@@ -96,13 +96,33 @@
                 开启探索
             </button>
         </div>
-        
+     
+<button onclick="transitionTo('choice.html')" class="ios-glass btn-ios w-full py-6 rounded-[2rem] flex items-center justify-between px-10 group relative overflow-hidden">
+    <div class="flex items-center space-x-3">
+        <span class="text-sm font-bold tracking-[0.2em] uppercase opacity-80 group-hover:opacity-100">前途量化分析</span>
+        <span class="flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
+    </div>
+    <span class="text-[10px] font-black text-emerald-400 tracking-widest animate-pulse">NEW</span>
+</button>
+
+<style>
+    /* 添加一个专门针对 NEW 字样的微弱呼吸效果 */
+    @keyframes pulse-soft {
+        0%, 100% { opacity: 1; filter: brightness(1); }
+        50% { opacity: 0.5; filter: brightness(1.5); }
+    }
+    .animate-pulse-soft { animation: pulse-soft 2s infinite; }
+</style>
+
+              
   <div class="mt-6">
     <button onclick="transitionToLab()" class="glass px-8 py-3 rounded-full text-xs tracking-[0.3em] text-gray-400 hover:text-white hover:border-white/40 transition-all duration-500 uppercase">
         进入实验室
     </button>
 </div>
-
 <script>
 function transitionToLab() {
     // 模拟 iOS 桌面图标被点开的缩放感

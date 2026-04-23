@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>KONG | Future Logic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;600;800&display=swap');
+        
+        body { 
+            background: #000; color: #fff; height: 100dvh; overflow: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .wallpaper { 
+            position: fixed; inset: 0; z-index: -1; 
+            background: radial-gradient(circle at 50% 50%, #161625 0%, #000 100%);
+        }
+
+        .ios-glass {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(45px) saturate(210%);
+            -webkit-backdrop-filter: blur(45px) saturate(210%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 48px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+        }
+
+        /* 转场动画 */
+        .anim-enter { animation: iosIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .anim-exit { animation: iosOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+        @keyframes iosIn {
+            from { opacity: 0; transform: scale(0.92) translateY(30px); filter: blur(15px); }
+            to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+        }
+        @keyframes iosOut {
+            to { opacity: 0; transform: scale(1.1) translateY(-20px); filter: blur(20px); }
+        }
+
+        .jelly-bar { height: 14px; background: rgba(255,255,255,0.05); border-radius: 20px; overflow: hidden; }
+        .jelly-fill {
+            height: 100%; border-radius: 20px; width: 0%;
+            transition: width 2.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        input::placeholder { color: rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body>
+    <div class="wallpaper"></div>
+
+    <div id="panel-input" class="ios-glass p-10 w-full max-w-sm mx-4 anim-enter">
+        <div class="text-center mb-12">
+            <div class="text-5xl mb-6 drop-shadow-2xl">⚖️</div>
+            <h1 class="text-2xl font-bold tracking-tight mb-2">职业前途量化</h1>
+            <p class="text-[9px] tracking-[0.6em] text-white/20 uppercase">Probability Logic Engine</p>
+        </div>
+        
+        <input type="text" id="user-input" placeholder="输入你的专业/职业" 
+            class="w-full bg-white/5 border border-white/5 rounded-2xl py-5 px-6 text-center text-white outline-none focus:border-white/20 focus:bg-white/10 transition-all mb-6">
+        
+        <button onclick="startAnalysis()" class="w-full bg-white text-black py-5 rounded-2xl font-bold text-sm tracking-widest active:scale-95 transition-transform shadow-xl">
+            开始演算
+        </button>
+    </div>
+
+    <div id="panel-result" class="ios-glass p-12 w-full max-w-md mx-4" style="display: none; opacity: 0;">
+        <h2 id="result-header" class="text-2xl font-black text-center mb-12 leading-tight tracking-tighter"></h2>
+        
+        <div class="space-y-12">
+            <div class="relative">
+                <div class="flex justify-between items-end mb-4">
+                    <span id="res-major-name" class="text-[10px] tracking-[0.3em] uppercase text-white/30 font-bold"></span>
+                    <span id="val-major" class="text-xl font-black italic opacity-80">0%</span>
+                </div>
+                <div class="jelly-bar"><div id="bar-major" class="jelly-fill bg-white/20"></div></div>
+            </div>
+
+            <div class="relative">
+                <div class="flex justify-between items-end mb-4">
+                    <span class="text-[10px] tracking-[0.3em] uppercase text-emerald-400 font-bold">卖淀粉肠</span>
+                    <span id="val-sausage" class="text-2xl font-black text-emerald-400 italic">0%</span>
+                </div>
+                <div class="jelly-bar">
+                    <div id="bar-sausage" class="jelly-fill bg-gradient-to-r from-emerald-500 to-teal-400 shadow-[0_0_30px_rgba(16,185,129,0.3)]"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-16 pt-8 border-t border-white/5 text-center">
+            <p class="text-[9px] text-white/20 tracking-[0.4em] uppercase mb-10 italic">Conclusion: Career is a circle, street food is the end.</p>
+            <button onclick="location.reload()" class="text-[10px] tracking-[0.5em] text-white/30 hover:text-emerald-400 uppercase transition-all duration-500 font-bold">
+                [ 重新加载内核 ]
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function startAnalysis() {
+            const inputVal = document.getElementById('user-input').value;
+            if (!inputVal) return;
+
+            const p1 = document.getElementById('panel-input');
+            const p2 = document.getElementById('panel-result');
+
+            // 逻辑控制：确保淀粉肠永远领先
+            // 用户专业指数：35% - 75% 随机
+            const majorScore = (Math.random() * 40 + 35).toFixed(1);
+            // 淀粉肠指数：92% - 99.9% 随机
+            const sausageScore = (Math.random() * 7.9 + 92).toFixed(1);
+
+            // 1. 退出动画
+            p1.classList.remove('anim-enter');
+            p1.classList.add('anim-exit');
+
+            setTimeout(() => {
+                p1.style.display = 'none';
+                
+                // 2. 准备数据
+                document.getElementById('result-header').innerHTML = `干 ${inputVal}<br><span class="text-sm text-white/10 font-light mx-2">VS</span><br>卖淀粉肠`;
+                document.getElementById('res-major-name').innerText = inputVal;
+
+                // 3. 入场动画
+                p2.style.display = 'block';
+                p2.offsetHeight; // 触发重绘
+                p2.classList.add('anim-enter');
+
+                // 4. 执行动态指数增加效果
+                setTimeout(() => {
+                    animateValue("val-major", 0, majorScore, 2000);
+                    animateValue("val-sausage", 0, sausageScore, 2000);
+                    document.getElementById('bar-major').style.width = majorScore + '%';
+                    document.getElementById('bar-sausage').style.width = sausageScore + '%';
+                }, 400);
+            }, 500);
+        }
+
+        // 数字滚动动画函数
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            const range = end - start;
+            let startTime = null;
+
+            const step = (timestamp) => {
+                if (!startTime) startTime = timestamp;
+                const progress = Math.min((timestamp - startTime) / duration, 1);
+                obj.innerText = (progress * range + start).toFixed(1) + "%";
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+    </script>
+</body>
+</html>
