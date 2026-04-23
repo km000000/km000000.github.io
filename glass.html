@@ -8,17 +8,18 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;600&family=JetBrains+Mono:wght@400;700&display=swap');
         
+        /* 修复：移除 overflow: hidden，允许页面在需要时滚动 */
         body {
             background: #000;
             margin: 0;
-            overflow: hidden;
             color: #fff;
             -webkit-font-smoothing: antialiased;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
             user-select: none;
+            min-height: 100dvh;
         }
 
-        /* 动态背景 */
+        /* 动态背景：固定定位，不随滚动条移动 */
         .wallpaper {
             position: fixed; inset: 0; z-index: -1;
             background: radial-gradient(at 0% 0%, #1a1a2e 0%, transparent 40%),
@@ -26,17 +27,17 @@
             filter: brightness(0.6) blur(40px);
         }
 
-        /* iOS 26 核心材质 */
+        /* iOS 26 核心材质：增强饱和度 */
         .ios-card {
             background: rgba(32, 32, 35, 0.4);
-            backdrop-filter: blur(50px) saturate(210%);
-            -webkit-backdrop-filter: blur(50px) saturate(210%);
-            border: 0.5px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(50px) saturate(230%);
+            -webkit-backdrop-filter: blur(50px) saturate(230%);
+            border: 0.5px solid rgba(255, 255, 255, 0.12);
+            border-top: 1px solid rgba(255, 255, 255, 0.2); /* 增加顶部高光边缘 */
             border-radius: 36px;
             transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        /* 极致物理按钮：结合第三版的按压感 */
         .ios-btn-press {
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -45,39 +46,43 @@
             transform: scale(0.94);
             background: rgba(255, 255, 255, 0.1);
         }
-        .ios-btn-press.active {
-            background: rgba(255, 255, 255, 0.95);
-            color: #000;
-            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+        /* 激活状态切换 */
+        .ios-btn-press.active-state {
+            background: rgba(255, 255, 255, 0.95) !important;
+            color: #000 !important;
         }
+        .ios-btn-press.active-state .status-label { color: #000; opacity: 0.6; }
 
-        /* 频率柱：阻尼感过渡 */
         .freq-bar {
-            width: 8px;
-            background: rgba(255,255,255,0.2);
+            width: 6px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.1));
             border-radius: 4px;
-            transition: height 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        /* 存储进度条 */
         .storage-bar-fill {
             transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
-            background: linear-gradient(90deg, #fff, #a1a1a1);
+            background: linear-gradient(90deg, #fff, rgba(255,255,255,0.3));
         }
 
-        /* 日志字体 */
         .mono { font-family: 'JetBrains Mono', monospace; }
 
-        .entrance { animation: iosIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes iosIn { from { transform: scale(1.1); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        /* 修复：入场动画包含位移，更具动感 */
+        .entrance { 
+            animation: iosIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes iosIn { 
+            from { transform: scale(1.05) translateY(30px); opacity: 0; } 
+            to { transform: scale(1) translateY(0); opacity: 1; } 
+        }
     </style>
 </head>
 <body class="flex justify-center">
     <div class="wallpaper"></div>
 
-    <div class="entrance w-full max-w-md px-6 py-12 flex flex-col min-h-screen">
+    <div class="entrance w-full max-w-md px-6 pt-12 pb-24 flex flex-col">
         
-        <header class="flex justify-between items-start mb-8 px-2">
+        <header class="flex justify-between items-start mb-10 px-2">
             <div>
                 <h1 class="text-3xl font-bold tracking-tight" style="font-family: 'Space Grotesk'">NODE_KONG</h1>
                 <p class="text-white/40 text-[10px] tracking-[0.4em] uppercase mt-1">Status: Operational</p>
@@ -85,13 +90,13 @@
             <div class="ios-card px-3 py-1 text-[10px] bg-white/10 border-none font-bold">2.4.0_RC</div>
         </header>
 
-        <div class="space-y-4">
+        <div class="space-y-5">
             <div class="ios-card p-6">
                 <div class="flex justify-between items-center mb-6">
-                    <span class="text-xs font-bold text-white/50 tracking-widest uppercase">Cpu Frequency</span>
-                    <span id="freq-val" class="text-xs mono font-bold">2.441 GHz</span>
+                    <span class="text-[10px] font-bold text-white/50 tracking-widest uppercase">Cpu Frequency</span>
+                    <span id="freq-val" class="text-xs mono font-bold text-white/90">2.441 GHz</span>
                 </div>
-                <div id="visualizer" class="flex items-end justify-between h-14">
+                <div id="visualizer" class="flex items-end justify-between h-14 px-1">
                     </div>
             </div>
 
@@ -100,52 +105,56 @@
                     <span class="font-bold">Server Storage</span>
                     <span id="storage-text" class="mono text-white">88.421 / 100.000 TB</span>
                 </div>
-                <div class="w-full bg-white/10 h-3 rounded-full overflow-hidden border border-white/5">
-                    <div id="storage-bar" class="storage-bar-fill h-full w-[88.421%]"></div>
+                <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden border border-white/5">
+                    <div id="storage-bar" class="storage-bar-fill h-full w-[88.421%] shadow-[0_0_15px_rgba(255,255,255,0.3)]"></div>
                 </div>
-                <div class="mt-3 text-[9px] text-white/20 mono">UPTIME: 1,422 HOURS</div>
+                <div class="mt-4 flex justify-between items-center">
+                    <span class="text-[9px] text-white/20 mono tracking-tighter">UPTIME: 1,422 HOURS</span>
+                    <span class="text-[9px] text-green-400/50 mono tracking-tighter">ENCRYPTED</span>
+                </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
-                <div onclick="toggleNode(this)" class="ios-card p-5 ios-btn-press active">
-                    <div class="w-10 h-10 bg-zinc-800 rounded-full mb-8 flex items-center justify-center transition-colors">
+                <div onclick="toggleNode(this)" class="ios-card p-6 ios-btn-press active-state">
+                    <div class="icon-box w-10 h-10 bg-white/10 rounded-2xl mb-8 flex items-center justify-center transition-all duration-500">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     </div>
-                    <p class="font-bold text-sm">加速引擎</p>
-                    <p class="status-label text-[10px] opacity-40">已开启</p>
+                    <p class="font-bold text-sm tracking-tight">加速引擎</p>
+                    <p class="status-label text-[10px] opacity-40 mt-1">已开启</p>
                 </div>
 
-                <div onclick="toggleNode(this)" class="ios-card p-5 ios-btn-press">
-                    <div class="w-10 h-10 bg-zinc-800 rounded-full mb-8 flex items-center justify-center transition-colors">
+                <div onclick="toggleNode(this)" class="ios-card p-6 ios-btn-press">
+                    <div class="icon-box w-10 h-10 bg-white/10 rounded-2xl mb-8 flex items-center justify-center transition-all duration-500">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                     </div>
-                    <p class="font-bold text-sm">视觉锁定</p>
-                    <p class="status-label text-[10px] opacity-40">待机中</p>
+                    <p class="font-bold text-sm tracking-tight">视觉锁定</p>
+                    <p class="status-label text-[10px] opacity-40 mt-1">待机中</p>
                 </div>
             </div>
 
-            <div class="ios-card p-6 h-32 relative overflow-hidden">
-                <div class="flex justify-between items-center mb-2">
+            <div class="ios-card p-6 h-36 relative overflow-hidden">
+                <div class="flex justify-between items-center mb-3">
                     <span class="text-[10px] font-bold text-white/30 uppercase tracking-widest">System Logs</span>
-                    <div class="w-1 h-1 bg-green-500 rounded-full animate-ping"></div>
+                    <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]"></div>
                 </div>
-                <div id="logs" class="mono text-[10px] text-white/40 space-y-1">
-                    <p>> [INFO] NODE READY</p>
+                <div id="logs" class="mono text-[9px] text-white/30 space-y-1.5">
+                    <p class="text-white/60">> [SYSTEM] KERNEL BOOT SUCCESS</p>
+                    <p>> [INFO] NODE_KONG_V2.4 ONLINE</p>
                 </div>
             </div>
         </div>
 
-        <button onclick="goBack()" class="mt-auto ios-card py-5 font-bold ios-btn-press text-sm">
-            返回控制中心
+        <button onclick="goBack()" class="mt-12 w-full py-5 rounded-[28px] font-bold text-sm bg-white text-black shadow-[0_15px_30px_rgba(255,255,255,0.1)] active:scale-95 transition-all duration-300 uppercase tracking-widest">
+            Return to Surface
         </button>
     </div>
 
     <script>
-        // --- 1. 频率监控 (平滑阻尼版) ---
+        // --- 1. 频率监控 (优化：增加随机波动感) ---
         const visualizer = document.getElementById('visualizer');
         const freqVal = document.getElementById('freq-val');
         const bars = [];
-        for(let i=0; i<18; i++) {
+        for(let i=0; i<20; i++) {
             const bar = document.createElement('div');
             bar.className = 'freq-bar';
             bar.style.height = '40%';
@@ -155,59 +164,59 @@
 
         function updateFreq() {
             bars.forEach((bar, i) => {
-                const time = Date.now() / 800; // 降低速度，增加优雅感
-                const wave = Math.sin(time + i * 0.4) * 25 + 50;
-                bar.style.height = `${wave + (Math.random() * 5)}%`;
-                bar.style.opacity = wave/100 + 0.2;
+                const time = Date.now() / 600; 
+                const wave = Math.sin(time + i * 0.4) * 30 + 50;
+                const jitter = Math.random() * 15;
+                bar.style.height = `${wave + jitter}%`;
+                bar.style.opacity = (wave + jitter)/115;
             });
-            freqVal.innerText = (2.4 + Math.sin(Date.now()/2500)*0.05).toFixed(3) + " GHz";
+            freqVal.innerText = (2.4 + Math.sin(Date.now()/2500)*0.045).toFixed(3) + " GHz";
         }
-        setInterval(updateFreq, 100);
+        setInterval(updateFreq, 80);
 
-        // --- 2. 服务器存储 (永不饱和增长逻辑) ---
-        let currentStorage = 88.421556; // 初始值
+        // --- 2. 存储增长逻辑 ---
+        let currentStorage = 88.421556;
         const storageText = document.getElementById('storage-text');
         const storageBar = document.getElementById('storage-bar');
 
         function growStorage() {
-            // 每次增加极小的值，且距离100越近，增长越慢
             const gap = 100 - currentStorage;
-            const increment = gap * 0.00001 * Math.random(); 
+            const increment = gap * 0.000008 * Math.random(); 
             currentStorage += increment;
-            
             storageText.innerText = `${currentStorage.toFixed(6)} / 100.000 TB`;
             storageBar.style.width = `${currentStorage}%`;
-            
-            if(Math.random() > 0.8) addLog(`STORAGE SYNC: +${(increment*1024).toFixed(4)} MB`);
+            if(Math.random() > 0.9) addLog(`DATA FEED: +${(increment*1024).toFixed(4)} MB`);
         }
-        setInterval(growStorage, 2000);
+        setInterval(growStorage, 1500);
 
-        // --- 3. 按钮与日志交互 ---
+        // --- 3. 交互逻辑 ---
         function toggleNode(el) {
-            el.classList.toggle('active');
-            const isActive = el.classList.contains('active');
+            // 修复：更正 class 名为 active-state 避免与系统 class 冲突
+            el.classList.toggle('active-state');
+            const isActive = el.classList.contains('active-state');
             const label = el.querySelector('.status-label');
-            const icon = el.querySelector('div');
+            const iconBox = el.querySelector('.icon-box');
             
             label.innerText = isActive ? "已开启" : "已关闭";
-            icon.style.background = isActive ? "#000" : "";
-            icon.style.color = isActive ? "#fff" : "";
+            iconBox.style.background = isActive ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
             
-            addLog(`MODULE [${el.querySelector('p.font-bold').innerText}] ${isActive ? 'ON' : 'OFF'}`);
+            addLog(`MODULE [${el.querySelector('p.font-bold').innerText}] ${isActive ? 'SIGNAL ON' : 'SIGNAL OFF'}`);
         }
 
         function addLog(msg) {
             const container = document.getElementById('logs');
             const p = document.createElement('p');
-            p.innerText = `> ${msg}`;
+            const now = new Date();
+            const timeStr = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+            p.innerHTML = `<span style="opacity: 0.5">[${timeStr}]</span> > ${msg}`;
             container.prepend(p);
-            if(container.children.length > 5) container.lastChild.remove();
+            if(container.children.length > 6) container.lastChild.remove();
         }
 
         function goBack() {
             document.body.style.opacity = '0';
-            document.body.style.transform = 'scale(1.1)';
-            document.body.style.transition = 'all 0.6s ease';
+            document.body.style.transform = 'translateY(20px) scale(0.95)';
+            document.body.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
             setTimeout(() => window.location.href = 'index.html', 500);
         }
     </script>
