@@ -16,12 +16,13 @@
             background-color: #000;
             color: #fff;
             overflow: hidden;
+            height: 100vh;
         }
 
         /* 顶级背景 */
         #bg-canvas { position: fixed; inset: 0; z-index: 0; }
         .glow-sphere {
-            position: absolute; border-radius: 50%; filter: blur(120px); z-index: 1; opacity: 0.3;
+            position: absolute; border-radius: 50%; filter: blur(120px); z-index: 1; opacity: 0.15;
             animation: move 20s infinite alternate ease-in-out;
         }
 
@@ -33,24 +34,28 @@
         /* 核心视觉 */
         .glow { text-shadow: 0 0 30px rgba(255,255,255,0.3); }
         .glass {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.5s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* --- 修复小白点：默认隐藏 --- */
+        /* iOS 风格特殊按钮 */
+        .ios-glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* 修复小白点 */
         #cursor {
             width: 12px; height: 12px; background: #fff; border-radius: 50%;
             position: fixed; pointer-events: none; z-index: 9999;
-            mix-blend-mode: difference; transition: transform 0.1s ease;
-            display: none; /* 默认不显示 */
+            mix-blend-mode: difference;
+            display: none;
         }
-
-        /* 只有当设备支持鼠标（非触屏）时才显示小白点 */
-        @media (pointer: fine) {
-            #cursor { display: block; }
-        }
+        @media (pointer: fine) { #cursor { display: block; } }
 
         /* 转场动画 */
         .page-transition { animation: zoomIn 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
@@ -65,117 +70,80 @@
         }
 
         #inner-space { display: none; opacity: 0; }
+        
+        .btn-hover-effect:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center">
+<body class="flex items-center justify-center">
 
     <canvas id="bg-canvas"></canvas>
-    <div class="glow-sphere w-[500px] h-[500px] bg-purple-900/20 top-[-10%] left-[-10%]"></div>
-    <div class="glow-sphere w-[600px] h-[600px] bg-blue-900/20 bottom-[-10%] right-[-10%]" style="animation-delay: -5s;"></div>
+    <div class="glow-sphere w-[500px] h-[500px] bg-purple-900 top-[-10%] left-[-10%]"></div>
+    <div class="glow-sphere w-[600px] h-[600px] bg-blue-900 bottom-[-10%] right-[-10%]" style="animation-delay: -5s;"></div>
     
     <div id="cursor"></div>
 
-    <main id="home-page" class="relative z-10 text-center px-4 page-transition">
-        <h1 class="text-7xl md:text-[12rem] font-black tracking-tighter mb-4 glow animate-pulse" style="font-family: 'Space Grotesk', sans-serif;">
+    <main id="home-page" class="relative z-10 text-center px-6 w-full max-w-4xl page-transition">
+        <h1 class="text-[clamp(4rem,15vw,10rem)] font-black tracking-tighter mb-2 glow animate-pulse" style="font-family: 'Space Grotesk', sans-serif;">
             KONG
         </h1>
         
-        <div class="glass px-8 py-4 rounded-full inline-block mb-10">
-            <p class="text-gray-400 tracking-[0.3em] uppercase text-xs md:text-sm font-medium">探索未知的数字边界</p>
+        <div class="glass px-6 py-2 rounded-full inline-block mb-8">
+            <p class="text-gray-400 tracking-[0.3em] uppercase text-[10px] md:text-xs font-medium">探索未知的数字边界</p>
         </div>
 
-        <div class="max-w-2xl mx-auto mb-16">
-            <p class="text-xl md:text-3xl text-gray-300 leading-relaxed font-light tracking-tight">
+        <div class="mb-12">
+            <p class="text-lg md:text-2xl text-gray-300 leading-relaxed font-light tracking-tight">
                 “代码不是目的，创造才是。” <br>
                 在这里，我们定义规则，或者打破它们。
             </p>
         </div>
 
-        <div class="mt-12">
-            <button onclick="exploreNow()" class="group relative bg-white text-black px-12 py-5 rounded-full font-black text-lg transition-all duration-500 hover:scale-110 active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+        <div class="flex flex-col items-center space-y-4 max-w-sm mx-auto">
+            <button onclick="exploreNow()" class="w-full bg-white text-black py-5 rounded-full font-black text-lg transition-all duration-500 hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.2)]">
                 开启探索
             </button>
+
+            <button onclick="transitionTo('choice.html')" class="ios-glass w-full py-5 rounded-full flex items-center justify-between px-8 group transition-all duration-300 hover:bg-white/10">
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs font-bold tracking-[0.2em] uppercase opacity-80">前途量化分析</span>
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                </div>
+                <span class="text-[10px] font-black text-emerald-400 tracking-widest animate-pulse">NEW</span>
+            </button>
+
+            <div class="grid grid-cols-2 gap-3 w-full">
+                <button onclick="transitionTo('glass.html')" class="glass py-4 rounded-full text-[10px] tracking-[0.2em] text-gray-400 hover:text-white btn-hover-effect uppercase">
+                    实验室
+                </button>
+                <button onclick="transitionTo('games.html')" class="glass py-4 rounded-full text-[10px] tracking-[0.2em] text-gray-400 hover:text-white btn-hover-effect uppercase">
+                    云端娱乐
+                </button>
+            </div>
         </div>
-     
-<button onclick="transitionTo('choice.html')" class="ios-glass btn-ios w-full py-6 rounded-[2rem] flex items-center justify-between px-10 group relative overflow-hidden">
-    <div class="flex items-center space-x-3">
-        <span class="text-sm font-bold tracking-[0.2em] uppercase opacity-80 group-hover:opacity-100">前途量化分析</span>
-        <span class="flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-        </span>
-    </div>
-    <span class="text-[10px] font-black text-emerald-400 tracking-widest animate-pulse">NEW</span>
-</button>
-
-<style>
-    /* 添加一个专门针对 NEW 字样的微弱呼吸效果 */
-    @keyframes pulse-soft {
-        0%, 100% { opacity: 1; filter: brightness(1); }
-        50% { opacity: 0.5; filter: brightness(1.5); }
-    }
-    .animate-pulse-soft { animation: pulse-soft 2s infinite; }
-</style>
-
-              
-  <div class="mt-6">
-    <button onclick="transitionToLab()" class="glass px-8 py-3 rounded-full text-xs tracking-[0.3em] text-gray-400 hover:text-white hover:border-white/40 transition-all duration-500 uppercase">
-        进入实验室
-    </button>
-</div>
-<script>
-function transitionToLab() {
-    // 模拟 iOS 桌面图标被点开的缩放感
-    const main = document.querySelector('main');
-    main.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-    main.style.transform = 'scale(1.5)';
-    main.style.filter = 'blur(20px)';
-    main.style.opacity = '0';
-    
-    setTimeout(() => {
-        window.location.href = 'glass.html';
-    }, 600);
-}
-</script>
-
-<div class="mt-4">
-    <button onclick="transitionTo('games.html')" class="glass px-10 py-4 rounded-full text-xs tracking-[0.3em] text-white/60 hover:text-white hover:bg-white/10 transition-all duration-500 uppercase border border-white/5">
-        云端娱乐中心
-    </button>
-</div>
-
-<script>
-// 通用的丝滑跳转函数
-function transitionTo(url) {
-    const main = document.querySelector('main') || document.body;
-    main.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-    main.style.transform = 'scale(0.9) translateY(-20px)'; // 向上轻微漂浮并缩小
-    main.style.filter = 'blur(15px)';
-    main.style.opacity = '0';
-    
-    setTimeout(() => {
-        window.location.href = url;
-    }, 600);
-}
-</script>
-
     </main>
 
-    <section id="inner-space" class="relative z-20 text-center px-6">
+    <section id="inner-space" class="relative z-20 text-center px-6 w-full">
         <h2 class="text-xs tracking-[1em] text-white/40 mb-8 uppercase">Introduction / KONG</h2>
-        <div class="space-y-6">
-            <div class="glass p-8 rounded-[2rem] max-w-lg mx-auto">
-                <p class="text-left text-gray-400 leading-relaxed text-lg">
+        <div class="space-y-6 max-w-lg mx-auto">
+            <div class="glass p-8 rounded-[2.5rem]">
+                <p class="text-left text-gray-300 leading-relaxed text-lg">
                     你好，我是 <span class="text-white font-bold text-2xl">KONG</span>。<br><br>
                     我是一名深耕于代码与美学交界的开发者。我坚信最高级的页面不仅是视觉的堆砌，更是交互的呼吸。
                 </p>
             </div>
-            <div class="grid grid-cols-2 gap-4 max-w-lg mx-auto">
-                <div class="glass p-6 rounded-[2rem] text-center">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="glass p-6 rounded-[2rem]">
                     <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Role</p>
                     <p class="font-bold">Creator</p>
                 </div>
-                <div class="glass p-6 rounded-[2rem] text-center">
+                <div class="glass p-6 rounded-[2rem]">
                     <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Status</p>
                     <p class="font-bold">Online</p>
                 </div>
@@ -189,25 +157,29 @@ function transitionTo(url) {
     </footer>
 
     <script>
-        // 1. 粒子背景系统
+        // 1. 粒子背景系统优化（支持高倍屏）
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
+        let dpr = window.devicePixelRatio || 1;
         
         function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
+            ctx.scale(dpr, dpr);
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerHeight + 'px';
         }
         window.addEventListener('resize', resize);
         resize();
 
         class Particle {
             constructor(x, y, isClick = false) {
-                this.x = x || Math.random() * canvas.width;
-                this.y = y || Math.random() * canvas.height;
+                this.x = x || Math.random() * window.innerWidth;
+                this.y = y || Math.random() * window.innerHeight;
                 this.size = isClick ? Math.random() * 4 + 1 : Math.random() * 1.5;
-                this.speedX = (Math.random() - 0.5) * (isClick ? 10 : 0.5);
-                this.speedY = (Math.random() - 0.5) * (isClick ? 10 : 0.5);
+                this.speedX = (Math.random() - 0.5) * (isClick ? 8 : 0.4);
+                this.speedY = (Math.random() - 0.5) * (isClick ? 8 : 0.4);
                 this.opacity = 1;
                 this.isClick = isClick;
             }
@@ -224,14 +196,10 @@ function transitionTo(url) {
             }
         }
 
-        function initBackground() {
-            particles = [];
-            for(let i=0; i<60; i++) particles.push(new Particle());
-        }
-        initBackground();
+        for(let i=0; i<60; i++) particles.push(new Particle());
 
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
             particles.forEach((p, i) => {
                 p.update();
                 p.draw();
@@ -242,23 +210,30 @@ function transitionTo(url) {
         }
         animate();
 
-        // 交互逻辑：点击特效
-        const handleInteraction = (x, y) => {
-            for(let i=0; i<8; i++) particles.push(new Particle(x, y, true));
-        };
-
-        window.addEventListener('mousedown', (e) => handleInteraction(e.clientX, e.clientY));
-        window.addEventListener('touchstart', (e) => handleInteraction(e.touches[0].clientX, e.touches[0].clientY));
-
-        // 光标随动 (仅在PC端运行)
-        const cursor = document.getElementById('cursor');
-        window.addEventListener('mousemove', (e) => {
-            if (cursor.style.display !== 'none') {
-                cursor.style.transform = `translate3d(${e.clientX - 6}px, ${e.clientY - 6}px, 0)`;
-            }
+        // 2. 交互逻辑
+        window.addEventListener('mousedown', (e) => {
+            for(let i=0; i<8; i++) particles.push(new Particle(e.clientX, e.clientY, true));
         });
 
-        // 页面切换逻辑
+        // 3. 平滑光标系统 (Lerp 算法)
+        const cursor = document.getElementById('cursor');
+        let mouse = { x: 0, y: 0 };
+        let cursorPos = { x: 0, y: 0 };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        function updateCursor() {
+            cursorPos.x += (mouse.x - cursorPos.x) * 0.15;
+            cursorPos.y += (mouse.y - cursorPos.y) * 0.15;
+            cursor.style.transform = `translate3d(${cursorPos.x - 6}px, ${cursorPos.y - 6}px, 0)`;
+            requestAnimationFrame(updateCursor);
+        }
+        updateCursor();
+
+        // 4. 页面切换逻辑
         const home = document.getElementById('home-page');
         const inner = document.getElementById('inner-space');
 
@@ -267,6 +242,7 @@ function transitionTo(url) {
             setTimeout(() => {
                 home.style.display = 'none';
                 inner.style.display = 'block';
+                inner.classList.remove('dimension-exit');
                 inner.classList.add('page-transition');
                 inner.style.opacity = '1';
             }, 700);
@@ -281,6 +257,15 @@ function transitionTo(url) {
                 home.classList.remove('dimension-exit');
                 home.classList.add('page-transition');
             }, 700);
+        }
+
+        function transitionTo(url) {
+            const main = document.querySelector('main');
+            main.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+            main.style.transform = 'scale(1.1)';
+            main.style.filter = 'blur(20px)';
+            main.style.opacity = '0';
+            setTimeout(() => { window.location.href = url; }, 500);
         }
     </script>
 </body>
