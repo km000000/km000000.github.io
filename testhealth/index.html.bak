@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>郑州模板健康证</title>
+    <title>测试测试测试测试测试测试测试测试测试测试模板健康证</title>
     <script src="js/qrcode.min.js"></script>
     <script src="js/html2canvas.min.js"></script>
     <script src="/js/rj.js"></script>
@@ -602,7 +602,7 @@
                         <img id="previewPhotoImg" src="/demo.jpg" class="headimg" />
                         <div class="hosp">体检单位：郑州市二七区马寨镇卫生院</div>
                         <img src="/zhengzhou.png" class="ygqimg"/>
-                        <img src="/123.png" class="card-bg" />
+                        <img src="/testheal/123.png" class="card-bg" />
                     </div>
                 </div>
                 <div class="cardinfo-r">
@@ -686,7 +686,7 @@
     </div>
     
     <footer>
-        <p>星云·工作室 &copy; 2025 | 此工具仅用于演示模拟目的，生成证明不具备法律效力，与开发者无关</p>
+        <p>测试测试测试测试测试测试测试测试测试测试测试测试测试 &copy; 2025 | 此工具仅用于演示模拟目的，生成证明不具备法律效力，与开发者无关</p>
     </footer>
     
     <script>
